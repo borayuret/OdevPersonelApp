@@ -21,7 +21,7 @@ public class PersonelController {
     private PersonelRepository personelRepository;
 
     @GetMapping("/personel/{id}")
-    public Personel getKisi(@PathVariable("id") long id)
+    public Personel getPersonel(@PathVariable("id") long id)
     {
         Personel personel = null;
         Optional<Personel> personelDB = personelRepository.findById(id);
@@ -46,7 +46,7 @@ public class PersonelController {
     @GetMapping("/personel-tam/{id}")
     public String getPersonelTam(@PathVariable("id") long id)
     {
-        Personel personel = getKisi(id);
+        Personel personel = getPersonel(id);
 
         Bolum bolum = getBolum(personel.getBolumNo());
 
@@ -54,6 +54,12 @@ public class PersonelController {
 
         return personel.getAd()+" "+personel.getSoyad()+" "+bolum.getAd()+" "+sehir.getAd();
 
+    }
+
+    @GetMapping("/personel/bolum/{bolumNo}")
+    public List<Personel> getPersonelByBolumNo(@PathVariable("bolumNo") long bolumNo)
+    {
+        return personelRepository.findPersonelByBolumNo(bolumNo);
     }
 
     private Bolum getBolum(long bolumNo)
